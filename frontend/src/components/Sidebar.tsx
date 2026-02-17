@@ -1,5 +1,5 @@
 import { useAuth } from '@/hooks/useAuth'
-import type { UserRole } from '@/context/AuthContext'
+import type { UserRole } from '@/lib/authContext'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {

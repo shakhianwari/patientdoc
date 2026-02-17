@@ -53,6 +53,7 @@ export default function ManageUsersPage() {
 
   async function fetchUsers() {
     const { data } = await supabase.rpc('get_all_profiles')
+      // get_all_profiles Postgres function should return email along with other profile info. Set in SupaBase
 
     setUsers(data ?? [])
     setLoading(false)
