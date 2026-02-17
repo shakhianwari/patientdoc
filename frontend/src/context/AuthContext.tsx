@@ -21,16 +21,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let ignore = false
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (ignore) return
       setSession(session)
-      if (session?.user) {
-        const p = await fetchProfile(session.user.id)
-        if (!ignore) setProfile(p)
-      } else {
-        setProfile(null)
-      }
-      if (event === 'INITIAL_SESSION' && !ignore) setLoading(false)
+      if (!session?.user) setProfile(null)
+      if (event === 'INITIAL_SESSION' && !session?.user) setLoading(false)
     })
 
     return () => {
@@ -38,6 +33,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       subscription.unsubscribe()
     }
   }, [])
+
+  useEffect(() => {
+    if (!session?.user?.id) return
+    let ignore = false
+
+    fetchProfile(session.user.id)
+      .then(p => {
+        if (!ignore) {
+          setProfile(p)
+          setLoading(false)
+        }
+      })
+      .catch(() => {
+        if (!ignore) setLoading(false)
+      })
+
+    return () => { ignore = true }
+  }, [session?.user?.id])
 
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password })

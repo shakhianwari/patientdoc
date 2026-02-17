@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Plus } from 'lucide-react'
+import * as React from "react";
 
 interface UserProfile {
   id: string
@@ -53,15 +54,15 @@ export default function ManageUsersPage() {
 
   async function fetchUsers() {
     const { data } = await supabase.rpc('get_all_profiles')
-      // get_all_profiles Postgres function should return email along with other profile info. Set in SupaBase
+      // get_all_profiles Postgres function should return email along with other profile info. Set in Supabase
 
     setUsers(data ?? [])
     setLoading(false)
   }
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
+  // useEffect(() => {
+  //   fetchUsers()
+  // }, [])
 
   const handleRoleChange = async (userId: string, role: string) => {
     await supabase.rpc('admin_update_profile', {
@@ -74,7 +75,7 @@ export default function ManageUsersPage() {
     )
   }
 
-  const handleCreateUser = async (e: React.FormEvent) => {
+  const handleCreateUser = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     setCreating(true)
     setCreateError(null)
