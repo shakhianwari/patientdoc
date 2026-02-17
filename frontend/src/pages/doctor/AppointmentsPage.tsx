@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useAuth } from '@/context/AuthContext'
+import { useAuth } from '@/hooks/useAuth'
 import { supabase } from '@/lib/supabase'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

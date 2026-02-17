@@ -116,7 +116,7 @@ export default function ManageUsersPage() {
     setNewRole('patient')
     setCreating(false)
     setDialogOpen(false)
-    fetchUsers()
+    await fetchUsers()
   }
 
   const roleBadgeVariant = (role: string | null) => {
